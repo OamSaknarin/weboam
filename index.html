@@ -1,0 +1,28 @@
+
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <title>Login</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="script.js" defer></script>
+</head>
+<body onload="checkAlreadyLoggedIn()">
+  <h2>เข้าสู่ระบบ</h2>
+  <form onsubmit="return login(event)">
+    <label>Username:</label><br>
+    <input type="text" id="username"><br>
+    <label>Password:</label><br>
+    <input type="password" id="password"><br><br>
+    <button type="submit">เข้าสู่ระบบ</button>
+  </form>
+
+  <!-- Pop up -->
+  <div id="popup" class="popup">
+    <div class="popup-content">
+      <p>ข้อมูลไม่ถูกต้อง กรุณาตรวจสอบข้อมูลอีกครั้ง</p>
+      <button onclick="closePopup()">ปิด</button>
+    </div>
+  </div>
+</body>
+</html>
