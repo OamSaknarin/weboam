@@ -1,103 +1,112 @@
 <!DOCTYPE html>
 <html lang="th">
-  <head>
-    <meta charset="UTF-8" />
-    <title>เข้าสู่ระบบ</title>
-    <style>
-      @import url('https://fonts.googleapis.com/css2?family=Sarabun&display=swap');
-      body, input, button, #response, form, h2 {
-        font-family: 'Sarabun', sans-serif;
-      }
-      body {
-        background-color: #fff4e1;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        height: 100vh;
-        margin: 0;
-      }
-      .container {
-        background-color: #ffffff;
-        padding: 40px 30px;
-        border-radius: 20px;
-        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
-        max-width: 360px;
-        width: 100%;
-        text-align: center;
-      }
-      h2 {
-        color: #ff6600;
-        margin-bottom: 20px;
-        font-size: 24px;
-      }
-      input, button {
-        width: 100%;
-        padding: 12px;
-        margin: 10px 0;
-        border-radius: 10px;
-        border: 1px solid #ddd;
-        font-size: 16px;
-        box-sizing: border-box;
-      }
-      button {
-        background-color: #ff8c42;
-        color: white;
-        font-weight: bold;
-        cursor: pointer;
-        transition: background-color 0.3s ease;
-      }
-      button:hover {
-        background-color: #e66e00;
-      }
-      #response {
-        margin-top: 10px;
-        font-size: 14px;
-      }
-    </style>
-  </head>
-  <body>
-    <div class="container">
-      <h2>เข้าสู่ระบบ</h2>
-      <form id="loginForm">
-        <input type="text" id="username" placeholder="ชื่อผู้ใช้" required />
-        <input type="password" id="password" placeholder="รหัสผ่าน" required />
-        <button type="submit">เข้าสู่ระบบ</button>
-      </form>
-      <p id="response"></p>
-    </div>
-    <script>
-      document.getElementById("loginForm").addEventListener("submit", function (e) {
-        e.preventDefault();
-        const username = document.getElementById("username").value;
-        const password = document.getElementById("password").value;
+<head>
+  <meta charset="UTF-8">
+  <title>เข้าสู่ระบบ</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Sarabun&display=swap');
+    
+    body, input, button, #response, form, h2 {
+      font-family: 'Sarabun', sans-serif;
+    }
 
-        // ส่งข้อมูลไปยัง Google Apps Script
-        fetch('https://script.google.com/macros/s/YOUR_SCRIPT_ID/exec', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-          body: new URLSearchParams({
-            username: username,
-            password: password
-          })
+    body {
+      background-color: #fff4e1;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+
+    .container {
+      background-color: #ffffff;
+      padding: 40px 30px;
+      border-radius: 20px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+      max-width: 360px;
+      width: 100%;
+      text-align: center;
+    }
+
+    h2 {
+      color: #ff6600;
+      margin-bottom: 20px;
+      font-size: 24px;
+    }
+
+    input, button {
+      width: 100%;
+      padding: 12px;
+      margin: 10px 0;
+      border-radius: 10px;
+      border: 1px solid #ddd;
+      font-size: 16px;
+      box-sizing: border-box;
+    }
+
+    button {
+      background-color: #ff8c42;
+      color: white;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #e66e00;
+    }
+
+    #response {
+      margin-top: 10px;
+      font-size: 14px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>เข้าสู่ระบบ</h2>
+    <form id="loginForm">
+      <input type="text" id="username" placeholder="ชื่อผู้ใช้" required />
+      <input type="password" id="password" placeholder="รหัสผ่าน" required />
+      <button type="submit">เข้าสู่ระบบ</button>
+    </form>
+    <p id="response"></p>
+  </div>
+
+  <script>
+    document.getElementById("loginForm").addEventListener("submit", function (e) {
+      e.preventDefault();
+      const username = document.getElementById("username").value;
+      const password = document.getElementById("password").value;
+
+      // ส่งข้อมูลไปยัง Google Apps Script API
+      fetch('https://script.google.com/macros/s/AKfycbwvmjGttM075m9KN9UtUvi8XaoPBARh8pw6ioV-kHf2/dev', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: new URLSearchParams({
+          username: username,
+          password: password
         })
-        .then(response => response.json())
-        .then(result => {
-          const responseEl = document.getElementById("response");
-          if (result.status === "success") {
-            responseEl.style.color = "green";
-            responseEl.innerText = result.message;
-            setTimeout(() => {
-              window.location.href = "home.html"; // ลิงค์ไปหน้า home เมื่อเข้าสู่ระบบสำเร็จ
-            }, 1000);
-          } else {
-            responseEl.style.color = "red";
-            responseEl.innerText = result.message;
-          }
-        })
-        .catch(error => {
-          console.error("Error:", error);
-        });
+      })
+      .then(response => response.json())
+      .then(result => {
+        const responseEl = document.getElementById("response");
+        if (result.status === "success") {
+          responseEl.style.color = "green";
+          responseEl.innerText = result.message;
+          setTimeout(() => {
+            window.location.href = "home.html"; // ลิงค์ไปหน้า home เมื่อเข้าสู่ระบบสำเร็จ
+          }, 1000);
+        } else {
+          responseEl.style.color = "red";
+          responseEl.innerText = result.message;
+        }
+      })
+      .catch(error => {
+        console.error("Error:", error);
       });
-    </script>
-  </body>
+    });
+  </script>
+</body>
 </html>
