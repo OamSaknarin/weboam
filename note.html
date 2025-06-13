@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>🌸 แอพจดบันทึกน่ารัก</title>
+  <link href="https://fonts.googleapis.com/css2?family=Itim&display=swap" rel="stylesheet">
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Itim', cursive;
+      background: #fff9f9;
+      padding: 20px;
+      margin: 0;
+      color: #333;
+    }
+
+    .container {
+      max-width: 600px;
+      margin: auto;
+    }
+
+    h1 {
+      text-align: center;
+      color: #ff69b4;
+      font-size: 2.2rem;
+      margin-bottom: 20px;
+    }
+
+    textarea {
+      width: 100%;
+      height: 120px;
+      font-size: 18px;
+      padding: 15px;
+      border: 2px solid #ffc0cb;
+      border-radius: 12px;
+      background: #fff0f5;
+      resize: vertical;
+      outline: none;
+      margin-bottom: 15px;
+    }
+
+    .buttons {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    button {
+      font-family: 'Itim', cursive;
+      padding: 12px 20px;
+      font-size: 16px;
+      margin: 5px 5px 10px 5px;
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+
+    button:hover {
+      opacity: 0.9;
+    }
+
+    .add-btn {
+      background-color: #ffb6c1;
+      color: white;
+    }
+
+    .clear-btn {
+      background-color: #d8bfd8;
+      color: white;
+    }
+
+    .edit-btn {
+      background-color: #ffd700;
+      margin-right: 10px;
+    }
+
+    .delete-btn {
+      background-color: #f08080;
+      color: white;
+    }
+
+    .note {
+      background: #fff0f5;
+      padding: 15px;
+      border-left: 6px solid #ff69b4;
+      margin-bottom: 15px;
+      border-radius: 10px;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.08);
+    }
+
+    .note-actions {
+      margin-top: 10px;
+      text-align: right;
+    }
+
+    h2 {
+      color: #ff69b4;
+      font-size: 1.5rem;
+      margin-top: 30px;
+      text-align: center;
+    }
+
+    @media (max-width: 480px) {
+      h1 {
+        font-size: 1.8rem;
+      }
+
+      textarea {
+        font-size: 16px;
+        height: 100px;
+      }
+
+      button {
+        font-size: 15px;
+        padding: 10px 16px;
+      }
+
+      h2 {
+        font-size: 1.3rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>🌸 แอพจดบันทึกน่ารัก</h1>
+
+    <textarea id="noteInput" placeholder="เขียนบันทึกของคุณที่นี่นะ..."></textarea>
+
+    <div class="buttons">
+      <button class="add-btn" onclick="addNote()">➕ เพิ่มบันทึก</button>
+      <button class="clear-btn" onclick="clearInput()">🧼 ล้าง</button>
+    </div>
+
+    <h2>📚 บันทึกทั้งหมด</h2>
+    <div id="notesContainer"></div>
+  </div>
+
+  <script>
+    let notes = JSON.parse(localStorage.getItem('notes')) || [];
+
+    function displayNotes() {
+      const container = document.getElementById('notesContainer');
+      container.innerHTML = '';
+      notes.forEach((note, index) => {
+        container.innerHTML += `
+          <div class="note">
+            <div>${note}</div>
+            <div class="note-actions">
+              <button class="edit-btn" onclick="editNote(${index})">✏️ แก้ไข</button>
+              <button class="delete-btn" onclick="deleteNote(${index})">🗑️ ลบ</button>
+            </div>
+          </div>
+        `;
+      });
+    }
+
+    function addNote() {
+      const input = document.getElementById('noteInput');
+      const note = input.value.trim();
+      if (note) {
+        notes.push(note);
+        saveNotes();
+        input.value = '';
+        displayNotes();
+      } else {
+        alert("กรุณากรอกข้อความก่อนบันทึกนะคะ 😊");
+      }
+    }
+
+    function deleteNote(index) {
+      if (confirm("แน่ใจหรือไม่ว่าจะลบบันทึกนี้นะคะ?")) {
+        notes.splice(index, 1);
+        saveNotes();
+        displayNotes();
+      }
+    }
+
+    function editNote(index) {
+      const newText = prompt("แก้ไขบันทึก:", notes[index]);
+      if (newText !== null && newText.trim() !== "") {
+        notes[index] = newText.trim();
+        saveNotes();
+        displayNotes();
+      }
+    }
+
+    function clearInput() {
+      document.getElementById('noteInput').value = '';
+    }
+
+    function saveNotes() {
+      localStorage.setItem('notes', JSON.stringify(notes));
+    }
+
+    displayNotes();
+  </script>
+</body>
+</html>
